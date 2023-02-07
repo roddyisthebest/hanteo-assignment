@@ -6,11 +6,11 @@ import Header from './components/Header';
 import { SwipeEventListener } from 'swipe-event-listener';
 import Pages from './components/Pages';
 import { Provider, useDispatch } from 'react-redux';
-import store from './store';
 import Slide from './components/Slide';
 import { setMaxPageIdx, setPageIdx } from './store/slice';
+import Scroll from './components/Scroll';
 const Container = styled.div`
-  height: 100vh;
+  /* height: 100vh; */
   min-height: 100vh;
   background-color: white;
   display: flex;
@@ -22,11 +22,11 @@ const Contents = styled.div`
   width: 425px;
   height: 100%;
   display: flex;
+  background-color: #ebebeb;
 `;
 
 const BodySection = styled.div`
   flex: 1;
-  background-color: white;
   padding-top: 100px;
   overflow-x: hidden;
 `;
@@ -110,7 +110,7 @@ function App() {
       component: (
         <Page>
           <Slide data={slideData}></Slide>
-          asdasdasdasdasdasdasdasdasasd
+          <Scroll></Scroll>
         </Page>
       ),
     },

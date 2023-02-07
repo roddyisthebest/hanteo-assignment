@@ -10,6 +10,7 @@ const Container = styled.div`
   overflow: hidden;
   width: 425px;
   padding-top: 50px;
+  background-color: white;
 `;
 
 const Contents = styled.ul<{ location: number }>`
@@ -26,7 +27,7 @@ const Contents = styled.ul<{ location: number }>`
 const Dots = styled.div`
   height: 50px;
   background-color: transparent;
-  margin-top: 220px;
+  margin-top: 240px;
   z-index: 100;
   padding: 0 20px;
   display: flex;
@@ -57,7 +58,7 @@ const Page = styled.li`
 
 const ItemWrapper = styled.div`
   width: 100%;
-  height: 350px;
+  height: 330px;
   margin: 40px 20px 0 20px;
   color: white;
 `;

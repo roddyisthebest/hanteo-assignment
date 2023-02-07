@@ -10,6 +10,7 @@ const Container = styled.div`
   overflow-x: hidden;
   flex: 1;
   display: flex;
+  z-index: 9999;
 `;
 
 const ItemWrapper = styled.ul<{ location: number }>`

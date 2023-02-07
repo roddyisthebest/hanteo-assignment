@@ -8,7 +8,9 @@ import { useSwipeable } from 'react-swipeable';
 const Container = styled.div`
   flex: 1;
   display: flex;
-  background-color: white;
+  /* background-color: #ebebeb; */
+
+  background-color: transparent;
   height: 100%;
   z-index: 9999;
 `;
