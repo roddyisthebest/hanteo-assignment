@@ -130,6 +130,7 @@ const ItemSubTitleText = styled.span`
 
 function Slide({
   data,
+  time,
 }: {
   data: {
     url: string;
@@ -138,6 +139,7 @@ function Slide({
     time: string;
     idx: number;
   }[];
+  time: number;
 }) {
   const [location, setLocation] = useState<number>(0);
 
@@ -148,15 +150,14 @@ function Slide({
       } else {
         setLocation((prev) => prev + 1);
       }
-    }, 5000);
+    }, time);
     return () => clearInterval(unsubscribe);
-  }, [data, location]);
+  }, [data, location, time]);
 
   const onClickedDot = useCallback((index: number) => {
     setLocation(index);
   }, []);
 
-  //   console.log(location);
   return (
     <Container>
       <Contents location={location}>

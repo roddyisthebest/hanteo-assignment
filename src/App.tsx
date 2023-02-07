@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import logo from './logo.svg';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import styled from 'styled-components';
 import Header from './components/Header';
-import { SwipeEventListener } from 'swipe-event-listener';
 import Pages from './components/Pages';
-import { Provider, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Slide from './components/Slide';
-import { setMaxPageIdx, setPageIdx } from './store/slice';
+import { initialStateProps, setMaxPageIdx, setPageIdx } from './store/slice';
 import Scroll from './components/Scroll';
 const Container = styled.div`
   /* height: 100vh; */
@@ -38,21 +36,23 @@ const Page = styled.div`
   flex-direction: column;
 `;
 
+const Dummy = styled.div`
+  flex: 1;
+  background-color: white;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  max-height: 100vh;
+`;
+
 function App() {
-  const target = useRef<any>();
+  const target = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
-  const [categorys, setCategorys] = useState<{ idx: number; name: string }[]>([
-    { idx: 0, name: '차트' },
-    { idx: 1, name: '이벤트' },
-    { idx: 2, name: '뉴스' },
-    { idx: 3, name: '사회' },
-    { idx: 4, name: '헬로' },
-    { idx: 5, name: '이젠' },
-    { idx: 6, name: '굿바이' },
-    { idx: 7, name: '끝' },
-  ]);
-
+  const { nowPageIdx } = useSelector((state: initialStateProps) => ({
+    nowPageIdx: state.nowPageIdx,
+  }));
   const [slideData, setSlideData] = useState<
     {
       imgUrl: string;
@@ -109,18 +109,84 @@ function App() {
       idx: 0,
       component: (
         <Page>
-          <Slide data={slideData}></Slide>
+          <Slide data={slideData} time={5000}></Slide>
           <Scroll></Scroll>
         </Page>
       ),
+      name: '차트',
     },
-    { idx: 1, component: <Page>이벤트</Page> },
-    { idx: 2, component: <Page>뉴스</Page> },
-    { idx: 3, component: <Page>사회</Page> },
-    { idx: 4, component: <Page>헬로</Page> },
-    { idx: 5, component: <Page>이젠</Page> },
-    { idx: 6, component: <Page>굿바이</Page> },
-    { idx: 7, component: <Page>끝</Page> },
+    {
+      idx: 1,
+      component: (
+        <Page>
+          <Dummy>이벤트</Dummy>
+        </Page>
+      ),
+      name: '이벤트',
+    },
+    {
+      idx: 2,
+      component: (
+        <Page>
+          <Dummy>뉴스</Dummy>
+        </Page>
+      ),
+      name: '뉴스',
+    },
+    {
+      idx: 3,
+      component: (
+        <Page>
+          <Dummy>사회</Dummy>
+        </Page>
+      ),
+      name: '사회',
+    },
+    {
+      idx: 4,
+      component: (
+        <Page>
+          <Dummy>경제</Dummy>
+        </Page>
+      ),
+      name: '경제',
+    },
+    {
+      idx: 5,
+      component: (
+        <Page>
+          <Dummy>스포츠</Dummy>
+        </Page>
+      ),
+      name: '스포츠',
+    },
+    {
+      idx: 6,
+      component: (
+        <Page>
+          <Dummy>교양</Dummy>
+        </Page>
+      ),
+      name: '교양',
+    },
+    {
+      idx: 7,
+      component: (
+        <Page>
+          <Dummy>끝</Dummy>
+        </Page>
+      ),
+      name: '끝',
+    },
+    {
+      idx: 8,
+      component: (
+        <Page>
+          <Dummy>추가</Dummy>
+        </Page>
+      ),
+      name: '추가',
+    },
   ]);
 
   useEffect(() => {
@@ -128,10 +194,14 @@ function App() {
     dispatch(setMaxPageIdx(pages[pages.length - 1].idx));
   }, [dispatch, pages]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [nowPageIdx]);
+
   return (
     <Container className="App">
       <Contents ref={target}>
-        <Header categorys={categorys}></Header>
+        <Header categorys={pages}></Header>
         <BodySection>
           <Pages pages={pages}></Pages>
         </BodySection>
