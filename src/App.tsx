@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import Header from './components/Header';
 import { SwipeEventListener } from 'swipe-event-listener';
 import Pages from './components/Pages';
-
+import { Provider } from 'react-redux';
+import store from './store';
 const Container = styled.div`
   height: 100vh;
   min-height: 100vh;
@@ -71,14 +72,16 @@ function App() {
   }, []);
 
   return (
-    <Container className="App">
-      <Contents ref={target}>
-        <Header categorys={categorys}></Header>
-        <BodySection>
-          <Pages pages={pages}></Pages>
-        </BodySection>
-      </Contents>
-    </Container>
+    <Provider store={store}>
+      <Container className="App">
+        <Contents ref={target}>
+          <Header categorys={categorys}></Header>
+          <BodySection>
+            <Pages pages={pages}></Pages>
+          </BodySection>
+        </Contents>
+      </Container>
+    </Provider>
   );
 }
 

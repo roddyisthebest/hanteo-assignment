@@ -1,6 +1,7 @@
 import { Component, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { initialStateProps } from '../store/slice';
 const Container = styled.div`
   flex: 1;
   display: flex;
@@ -42,10 +43,14 @@ function Pages({
   pages: { idx: number; component: JSX.Element }[];
 }) {
   const [location, setLocation] = useState<number>(0);
+  const dispatch = useDispatch();
 
+  const { nowPageIdx } = useSelector((state: initialStateProps) => ({
+    nowPageIdx: state.nowPageIdx,
+  }));
   return (
     <Container>
-      <PagesWrapper location={location}>
+      <PagesWrapper location={nowPageIdx}>
         {pages.map((page) => (
           <Page key={page.idx}>{page.component}</Page>
         ))}

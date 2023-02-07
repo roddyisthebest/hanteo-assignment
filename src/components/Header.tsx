@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { SwipeEventListener } from 'swipe-event-listener';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { initialStateProps, setPageIdx } from '../store/slice';
 const Container = styled.div`
   width: 425px;
   position: fixed;
@@ -45,16 +45,18 @@ const Button = styled.button<{ isSelected: boolean }>`
 `;
 function Header({ categorys }: { categorys: { idx: number; name: string }[] }) {
   const [location, setLocation] = useState<number>(0);
-  const [selectedIdx, setSelectedIdx] = useState<number>(0);
-  useEffect(() => {
-    setSelectedIdx(categorys[0]['idx']);
-  }, [categorys]);
+  const dispatch = useDispatch();
 
-  const onClicked = (index: number, selectIdx: number) => {
+  const { nowPageIdx } = useSelector((state: initialStateProps) => ({
+    nowPageIdx: state.nowPageIdx,
+  }));
+
+  const onClicked = (index: number) => {
     if (index !== 0 && index !== categorys.length - 1) {
       setLocation(index - 1);
     }
-    setSelectedIdx(selectIdx);
+
+    dispatch(setPageIdx(index));
   };
 
   return (
@@ -63,8 +65,8 @@ function Header({ categorys }: { categorys: { idx: number; name: string }[] }) {
         {categorys.map((category, index) => (
           <Item key={category.idx}>
             <Button
-              onClick={() => onClicked(index, category.idx)}
-              isSelected={category.idx === selectedIdx}
+              onClick={() => onClicked(index)}
+              isSelected={category.idx === nowPageIdx}
             >
               {category.name}
             </Button>
