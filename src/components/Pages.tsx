@@ -75,10 +75,12 @@ function Pages({
         setStartX(e.clientX);
       }}
       onMouseUp={(e) => {
-        if (startX - e.clientX > 0) {
-          dispatch(addPageIdx());
-        } else {
-          dispatch(minusPageIdx());
+        if (Math.abs(startX - e.clientX) > 25) {
+          if (startX - e.clientX > 0) {
+            dispatch(addPageIdx());
+          } else {
+            dispatch(minusPageIdx());
+          }
         }
       }}
     >
