@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import Header from './components/Header';
 import { SwipeEventListener } from 'swipe-event-listener';
 import Pages from './components/Pages';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import store from './store';
+import { setMaxPageIdx, setPageIdx } from './store/slice';
 const Container = styled.div`
   height: 100vh;
   min-height: 100vh;
@@ -29,11 +30,15 @@ const BodySection = styled.div`
   overflow-x: hidden;
 `;
 const Page = styled.div`
-  color: blue;
+  flex: 1;
+  display: flex;
+  align-items: start;
+  justify-content: start;
 `;
 
 function App() {
   const target = useRef<any>();
+  const dispatch = useDispatch();
 
   const [categorys, setCategorys] = useState<{ idx: number; name: string }[]>([
     { idx: 0, name: '차트' },
@@ -57,31 +62,34 @@ function App() {
     { idx: 7, component: <Page>끝</Page> },
   ]);
 
+  // useEffect(() => {
+  //   const { swipeArea } = SwipeEventListener({
+  //     swipeArea: target.current,
+  //   });
+
+  //   swipeArea.addEventListener('swipeLeft', () => {
+  //     console.log('swipe left');
+  //   });
+
+  //   swipeArea.addEventListener('swipeRight', () => {
+  //     console.log('swipe right');
+  //   });
+  // }, []);
+
   useEffect(() => {
-    const { swipeArea } = SwipeEventListener({
-      swipeArea: target.current,
-    });
-
-    swipeArea.addEventListener('swipeLeft', () => {
-      console.log('swipe left');
-    });
-
-    swipeArea.addEventListener('swipeRight', () => {
-      console.log('swipe right');
-    });
-  }, []);
+    dispatch(setPageIdx(pages[0].idx));
+    dispatch(setMaxPageIdx(pages[pages.length - 1].idx));
+  }, [dispatch, pages]);
 
   return (
-    <Provider store={store}>
-      <Container className="App">
-        <Contents ref={target}>
-          <Header categorys={categorys}></Header>
-          <BodySection>
-            <Pages pages={pages}></Pages>
-          </BodySection>
-        </Contents>
-      </Container>
-    </Provider>
+    <Container className="App">
+      <Contents ref={target}>
+        <Header categorys={categorys}></Header>
+        <BodySection>
+          <Pages pages={pages}></Pages>
+        </BodySection>
+      </Contents>
+    </Container>
   );
 }
 

@@ -55,9 +55,19 @@ function Header({ categorys }: { categorys: { idx: number; name: string }[] }) {
     if (index !== 0 && index !== categorys.length - 1) {
       setLocation(index - 1);
     }
-
+    console.log(index);
     dispatch(setPageIdx(index));
   };
+
+  useEffect(() => {
+    if (nowPageIdx === 1 || nowPageIdx === 0) {
+      setLocation(0);
+    } else if (nowPageIdx === categorys.length - 1) {
+      setLocation(categorys.length - 3);
+    } else {
+      setLocation(nowPageIdx - 1);
+    }
+  }, [nowPageIdx, categorys.length]);
 
   return (
     <Container>
@@ -66,7 +76,7 @@ function Header({ categorys }: { categorys: { idx: number; name: string }[] }) {
           <Item key={category.idx}>
             <Button
               onClick={() => onClicked(index)}
-              isSelected={category.idx === nowPageIdx}
+              isSelected={index === nowPageIdx}
             >
               {category.name}
             </Button>
