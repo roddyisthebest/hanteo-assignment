@@ -10,6 +10,7 @@ const Container = styled.div`
   display: flex;
   background-color: white;
   height: 100%;
+  z-index: 9999;
 `;
 
 const PagesWrapper = styled.ul<{ location: number }>`

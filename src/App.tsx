@@ -7,6 +7,7 @@ import { SwipeEventListener } from 'swipe-event-listener';
 import Pages from './components/Pages';
 import { Provider, useDispatch } from 'react-redux';
 import store from './store';
+import Slide from './components/Slide';
 import { setMaxPageIdx, setPageIdx } from './store/slice';
 const Container = styled.div`
   height: 100vh;
@@ -34,6 +35,7 @@ const Page = styled.div`
   display: flex;
   align-items: start;
   justify-content: start;
+  flex-direction: column;
 `;
 
 function App() {
@@ -51,8 +53,67 @@ function App() {
     { idx: 7, name: '끝' },
   ]);
 
+  const [slideData, setSlideData] = useState<
+    {
+      imgUrl: string;
+      title: string;
+      time: string;
+      idx: number;
+      url: string;
+    }[]
+  >([
+    {
+      imgUrl:
+        'https://res.cloudinary.com/dwzmsvp7f/image/fetch/q_75,f_auto,w_1316/https%3A%2F%2Fmedia.insider.in%2Fimage%2Fupload%2Fc_crop%2Cg_custom%2Fv1673244803%2Fkh6olrfdpw20givwdc8h.jpg',
+      title: 'Mancity VS Manutd',
+      time: '2022.08.10(kst)',
+      idx: 0,
+      url: 'https://www.naver.com',
+    },
+    {
+      imgUrl:
+        'https://www.thesun.co.uk/wp-content/uploads/2022/10/Offplat-ManUtd-Chelsea.jpg?strip=all&quality=100&w=1920&h=1080&crop=1',
+      title: 'chelsea VS Manutd',
+      time: '2022.08.10(kst)',
+      idx: 1,
+      url: 'https://www.naver.com',
+    },
+    {
+      imgUrl:
+        'https://icdn.strettynews.com/wp-content/uploads/2022/11/Manchester-United-vs-Barcelona.jpg',
+      title: 'barcelona VS Manutd',
+      time: '2022.08.10(kst)',
+      idx: 2,
+      url: 'https://www.naver.com',
+    },
+    {
+      imgUrl:
+        'https://icdn.strettynews.com/wp-content/uploads/2022/11/Manchester-United-vs-Barcelona.jpg',
+      title: 'barcelona VS Manutd',
+      time: '2022.08.10(kst)',
+      idx: 3,
+      url: 'https://www.naver.com',
+    },
+    {
+      imgUrl:
+        'https://res.cloudinary.com/dwzmsvp7f/image/fetch/q_75,f_auto,w_1316/https%3A%2F%2Fmedia.insider.in%2Fimage%2Fupload%2Fc_crop%2Cg_custom%2Fv1673244803%2Fkh6olrfdpw20givwdc8h.jpg',
+      title: 'Mancity VS Manutd',
+      time: '2022.08.10(kst)',
+      idx: 4,
+      url: 'https://www.naver.com',
+    },
+  ]);
+
   const [pages, setPages] = useState<any>([
-    { idx: 0, component: <Page>차트</Page> },
+    {
+      idx: 0,
+      component: (
+        <Page>
+          <Slide data={slideData}></Slide>
+          asdasdasdasdasdasdasdasdasasd
+        </Page>
+      ),
+    },
     { idx: 1, component: <Page>이벤트</Page> },
     { idx: 2, component: <Page>뉴스</Page> },
     { idx: 3, component: <Page>사회</Page> },
@@ -61,20 +122,6 @@ function App() {
     { idx: 6, component: <Page>굿바이</Page> },
     { idx: 7, component: <Page>끝</Page> },
   ]);
-
-  // useEffect(() => {
-  //   const { swipeArea } = SwipeEventListener({
-  //     swipeArea: target.current,
-  //   });
-
-  //   swipeArea.addEventListener('swipeLeft', () => {
-  //     console.log('swipe left');
-  //   });
-
-  //   swipeArea.addEventListener('swipeRight', () => {
-  //     console.log('swipe right');
-  //   });
-  // }, []);
 
   useEffect(() => {
     dispatch(setPageIdx(pages[0].idx));
